@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">Todo_App</string>
+    <string name="app_name">NBC-todo</string>
+    <!--    MainActivity-->
+    <string name="MainActivity_todo_tab_tittle">Todo</string>
+    <string name="MainActivity_bookmark_tab_title">Bookmark</string>
+    <string name="MainActivity_toolBar_title">Todo App</string>
+    <!--    AddTodoActivity-->
+    <string name="AddTodoActivity_toolBar_title">Add Todo Item</string>
+    <string name="AddTodoActivity_title_hint">Title</string>
+    <string name="AddTodoActivity_description_hint">Description</string>
+    <string name="AddTodoActivity_btn_delete">DELETE</string>
+    <string name="AddTodoActivity_btn_add">ADD</string>
+    <string name="AddTodoActivity_btn_update">EDIT</string>
+    <string name="AddTodoActivity_pass">""</string>
 </resources>
