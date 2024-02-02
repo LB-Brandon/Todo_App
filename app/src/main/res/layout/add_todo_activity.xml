@@ -54,12 +54,21 @@
             android:text="@string/AddTodoActivity_btn_delete" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_submit"
+            android:id="@+id/btn_add"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:enabled="false"
+            android:enabled="true"
             android:text="@string/AddTodoActivity_btn_add" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:enabled="true"
+            android:text="@string/AddTodoActivity_btn_update" />
 
     </LinearLayout>
 
