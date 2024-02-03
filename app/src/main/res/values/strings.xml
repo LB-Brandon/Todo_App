@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Todo</string>
 
     <!-- main -->
     <string name="main_todo_title">TODO LIST</string>
