@@ -1,4 +1,4 @@
-package com.brandon.todo_app.ui.todo.list
+package com.brandon.todo_app.data
 
 sealed interface TodoListItem {
 

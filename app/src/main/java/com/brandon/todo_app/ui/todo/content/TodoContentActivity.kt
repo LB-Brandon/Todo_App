@@ -6,14 +6,11 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.AbstractSavedStateViewModelFactory
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.savedstate.SavedStateRegistryOwner
 import com.brandon.todo_app.data.TodoEntity
 import com.brandon.todo_app.databinding.TodoCreateActivityBinding
+import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_CONTENT_ACTION_TYPE
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_ENTITY
-import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_ENTRY_TYPE
+import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_CONTENT_ENTRY_TYPE
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_POSITION
 
 class TodoContentActivity : AppCompatActivity() {
@@ -23,7 +20,7 @@ class TodoContentActivity : AppCompatActivity() {
         fun newIntentCreate(
             context: Context
         ) = Intent(context, TodoContentActivity::class.java).apply {
-            putExtra(EXTRA_TODO_ENTRY_TYPE, TodoContentEntryType.CREATE)
+            putExtra(EXTRA_TODO_CONTENT_ENTRY_TYPE, TodoContentEntryType.CREATE)
         }
 
         fun newIntentUpdate(
@@ -31,7 +28,7 @@ class TodoContentActivity : AppCompatActivity() {
             position: Int,
             entity: TodoEntity
         ) = Intent(context, TodoContentActivity::class.java).apply {
-            putExtra(EXTRA_TODO_ENTRY_TYPE, TodoContentEntryType.UPDATE)
+            putExtra(EXTRA_TODO_CONTENT_ENTRY_TYPE, TodoContentEntryType.UPDATE)
             putExtra(EXTRA_TODO_POSITION, position)
             putExtra(EXTRA_TODO_ENTITY, entity)
         }
@@ -81,7 +78,7 @@ class TodoContentActivity : AppCompatActivity() {
                 is TodoContentEvent.Create -> {
                     setResult(RESULT_OK, Intent().apply {
                         putExtra(
-                            EXTRA_TODO_ENTRY_TYPE,
+                            EXTRA_TODO_CONTENT_ACTION_TYPE,
                             TodoContentEntryType.CREATE
                         )
                         putExtra(
@@ -99,7 +96,7 @@ class TodoContentActivity : AppCompatActivity() {
                 is TodoContentEvent.Update -> {
                     setResult(RESULT_OK, Intent().apply {
                         putExtra(
-                            EXTRA_TODO_ENTRY_TYPE,
+                            EXTRA_TODO_CONTENT_ACTION_TYPE,
                             TodoContentEntryType.UPDATE
                         )
                         putExtra(
@@ -117,7 +114,7 @@ class TodoContentActivity : AppCompatActivity() {
                 is TodoContentEvent.Delete -> {
                     setResult(RESULT_OK, Intent().apply {
                         putExtra(
-                            EXTRA_TODO_ENTRY_TYPE,
+                            EXTRA_TODO_CONTENT_ACTION_TYPE,
                             TodoContentEntryType.DELETE
                         )
                         putExtra(

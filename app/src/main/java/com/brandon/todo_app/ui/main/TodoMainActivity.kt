@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.brandon.todo_app.data.TodoEntity
 import com.brandon.todo_app.databinding.TodoMainActivityBinding
 import com.brandon.todo_app.ui.todo.content.TodoContentActivity
+import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_CONTENT_ACTION_TYPE
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_ENTITY
 import com.brandon.todo_app.ui.todo.list.TodoListFragment
 import com.google.android.material.tabs.TabLayoutMediator
@@ -30,9 +31,9 @@ class TodoMainActivity : AppCompatActivity() {
     private val createTodoLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val todoModel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                val todoEntity = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     result.data?.getParcelableExtra(
-                        EXTRA_TODO_ENTITY,
+                        EXTRA_TODO_CONTENT_ACTION_TYPE,
                         TodoEntity::class.java
                     )
                 } else {
@@ -41,8 +42,8 @@ class TodoMainActivity : AppCompatActivity() {
                     )
                 }
                 // TODO: 공유 뷰모델에 저장
-                sharedViewModel.saveTodoModel(todoModel)
-                Timber.d("AddTodoActivity succeeded.")
+                sharedViewModel.saveTodoItem(todoEntity)
+                Timber.d("AddTodoActivity succeeded. TodoEntity: $todoEntity.")
             }else{
                 Timber.e("AddTodoActivity failed or canceled.")
             }

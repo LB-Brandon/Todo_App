@@ -9,13 +9,13 @@ import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.brandon.todo_app.data.TodoEntity
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_ENTITY
-import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_ENTRY_TYPE
+import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_CONTENT_ENTRY_TYPE
 import com.brandon.todo_app.util.SingleLiveEvent
 import java.util.UUID
 
 class TodoContentViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
-    private val entryType get() = savedStateHandle.get<TodoContentEntryType>(EXTRA_TODO_ENTRY_TYPE)
+    private val entryType get() = savedStateHandle.get<TodoContentEntryType>(EXTRA_TODO_CONTENT_ENTRY_TYPE)
     private val entity get() = savedStateHandle.get<TodoEntity>(EXTRA_TODO_ENTITY)
 
     private val _uiState: MutableLiveData<TodoContentUiState> = MutableLiveData(TodoContentUiState.init())
