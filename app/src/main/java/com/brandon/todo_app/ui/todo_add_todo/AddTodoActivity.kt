@@ -13,7 +13,9 @@ import com.brandon.todo_app.const.Keys.EXTRA_ADD_TODO_POSITION
 import com.brandon.todo_app.const.Keys.EXTRA_TODO_ENTITY
 import com.brandon.todo_app.data.TodoModel
 import com.brandon.todo_app.databinding.AddTodoActivityBinding
-import com.brandon.todo_app.ui.todo_add_todo.AddTodoActionType.*
+import com.brandon.todo_app.ui.todo_add_todo.AddTodoActionType.CREATE
+import com.brandon.todo_app.ui.todo_add_todo.AddTodoActionType.DELETE
+import com.brandon.todo_app.ui.todo_add_todo.AddTodoActionType.UPDATE
 import timber.log.Timber
 
 class AddTodoActivity : AppCompatActivity() {
@@ -22,15 +24,13 @@ class AddTodoActivity : AppCompatActivity() {
     private val viewModel: AddTodoViewModel by viewModels()
 
 
-    private val todoEntity: TodoModel? by lazy {
+    private val entryEntity: TodoModel? by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent?.getParcelableExtra(EXTRA_TODO_ENTITY, TodoModel::class.java)
         } else {
             intent?.getParcelableExtra(EXTRA_TODO_ENTITY)
         }
     }
-    private val entryType: AddTodoActionType? = null
-
     private val editTexts get() = listOf(binding.etTitle, binding.etDescription)
 
     companion object {
@@ -55,18 +55,36 @@ class AddTodoActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() = with(viewModel) {
-        entryType.observe(this@AddTodoActivity) {
-            setInitData(it)
+        // EntryEntity 에 따른 초기 Ui 데이터 세팅
+        entryEntity.observe(this@AddTodoActivity) { todoModel ->
+            setData(todoModel)
         }
-        uiState.observe(this@AddTodoActivity) {
-            // Button 활/비활성화 상태 토글
-            updateSubmitButtonState(it.isSubmitButtonEnabled)
+        // EntryType 에 따른 Ui 형태 초기화
+        entryType.observe(this@AddTodoActivity) { entryType ->
+            setInitUi(entryType)
         }
-        // 이벤트는 결과를 처리하지 않음. 이벤트로 result 를 세팅하게 되면 result 를 관찰하여 결과 방출.
+        // EntryType 업데이트 시 uiState 에 entryType 을 추가
+        // type 에 적합한 ui만 업데이트
+        uiState.observe(this@AddTodoActivity) { state ->
+            updateSubmitButtonState(state.entryType, state.isSubmitButtonEnabled)
+        }
+        // 유저 이벤트가 발생하면 viewModel 내의 데이터를 가공하여 result 를 세팅하게 되고 result 를 관찰하여 결과 방출.
         result.observe(this@AddTodoActivity) { result ->
             sendResult(result)
         }
 
+    }
+
+    private fun setData(entryEntity: TodoModel?) {
+        entryEntity ?: run {
+            Timber.d("Can't find entry data")
+            return
+        }
+        with(binding) {
+            etTitle.setText(entryEntity.title.toString())
+            etDescription.setText(entryEntity.description.toString())
+        }
+        Timber.d("Set entry data")
     }
 
     private fun sendResult(result: AddTodoEventResultType) {
@@ -94,19 +112,22 @@ class AddTodoActivity : AppCompatActivity() {
         exit()
     }
 
-    private fun setInitData(entryType: AddTodoActionType) = with(binding) {
+    private fun setInitUi(entryType: AddTodoActionType?) = with(binding) {
         when (entryType) {
             UPDATE -> {
                 btnEdit.isVisible = true
                 btnDelete.isVisible = true
                 btnAdd.isVisible = false
+                Timber.d("Ui set, $entryType")
             }
 
-            else -> Unit
+            else -> Timber.d("Create Ui set")
+
         }
     }
 
-    private fun updateSubmitButtonState(isEnabled: Boolean?) {
+    private fun updateSubmitButtonState(entryType: AddTodoActionType?, isEnabled: Boolean?) {
+        Timber.d("Update button state, entryType: $entryType, isEnabled: $isEnabled.")
         when (entryType) {
             CREATE -> binding.btnAdd.isEnabled = isEnabled == true
             UPDATE -> binding.btnEdit.isEnabled = isEnabled == true
@@ -117,7 +138,7 @@ class AddTodoActivity : AppCompatActivity() {
 
     // Entity 존재 여부로 entryType 분기, 초기갑 세팅
     private fun setEntryType() {
-        viewModel.setEntryEntity(todoEntity)
+        viewModel.setEntryEntity(entryEntity)
     }
 
     private fun initListener() = with(binding) {

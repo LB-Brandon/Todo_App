@@ -9,18 +9,18 @@ import timber.log.Timber
 class AddTodoViewModel : ViewModel() {
 
     private val _entryEntity: MutableLiveData<TodoModel?> = MutableLiveData()
+    val entryEntity: LiveData<TodoModel?> = _entryEntity
 
     private var _entryType: MutableLiveData<AddTodoActionType> = MutableLiveData()
     val entryType: LiveData<AddTodoActionType> = _entryType
 
-    private val _event: MutableLiveData<AddTodoEventType> = MutableLiveData()
-    val event: LiveData<AddTodoEventType> = _event
+    private val _uiState: MutableLiveData<AddTodoUiState> = MutableLiveData(AddTodoUiState.init())
+    val uiState: LiveData<AddTodoUiState> get() = _uiState
 
     private val _result: MutableLiveData<AddTodoEventResultType> = MutableLiveData()
     val result: LiveData<AddTodoEventResultType> = _result
 
-    private val _uiState: MutableLiveData<AddTodoUiState> = MutableLiveData(AddTodoUiState.init())
-    val uiState: LiveData<AddTodoUiState> get() = _uiState
+
 
 
     // 라이브 데이터 값 노출
@@ -30,14 +30,21 @@ class AddTodoViewModel : ViewModel() {
 
 
     fun setEntryEntity(entryEntity: TodoModel?) {
-        entryEntity ?: run {
-            Timber.d("setEntryEntity is null")
-            return
-        }
-        Timber.d("setEntryEntity is $entryEntity")
-
         _entryEntity.value = entryEntity
+        val isCreateType = entryEntity == null
+        updateEntryType(isCreateType)
     }
+
+    private fun updateEntryType(isCreateType: Boolean) {
+        if (isCreateType) {
+            _entryType.value = AddTodoActionType.CREATE
+            _uiState.value = uiState.value?.copy(entryType = AddTodoActionType.CREATE)
+        } else {
+            _entryType.value = AddTodoActionType.UPDATE
+            _uiState.value = uiState.value?.copy(entryType = AddTodoActionType.UPDATE)
+        }
+    }
+
 
     fun onClick(eventType: AddTodoEventType) {
         // event 타입에 따라 set result
