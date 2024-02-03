@@ -1,4 +1,4 @@
-package com.brandon.todo_app.bookmark
+package com.brandon.todo_app.ui.bookmark
 
 import androidx.fragment.app.Fragment
 

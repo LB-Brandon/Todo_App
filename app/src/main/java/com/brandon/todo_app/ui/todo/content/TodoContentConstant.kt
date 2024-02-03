@@ -1,4 +1,4 @@
-package com.brandon.todo_app.todo.content
+package com.brandon.todo_app.ui.todo.content
 
 object TodoContentConstant {
 

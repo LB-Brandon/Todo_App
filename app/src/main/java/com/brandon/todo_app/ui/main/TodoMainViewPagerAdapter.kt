@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.brandon.todo_app.R
-import com.brandon.todo_app.bookmark.BookmarkListFragment
-import com.brandon.todo_app.todo.list.TodoListFragment
+import com.brandon.todo_app.ui.bookmark.BookmarkListFragment
+import com.brandon.todo_app.ui.todo.list.TodoListFragment
 
 class TodoMainViewPagerAdapter(
     fragmentActivity: FragmentActivity
