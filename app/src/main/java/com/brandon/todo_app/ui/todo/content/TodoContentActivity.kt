@@ -79,7 +79,7 @@ class TodoContentActivity : AppCompatActivity() {
                     setResult(RESULT_OK, Intent().apply {
                         putExtra(
                             EXTRA_TODO_CONTENT_ACTION_TYPE,
-                            TodoContentEntryType.CREATE
+                            TodoContentActionType.CREATE
                         )
                         putExtra(
                             EXTRA_TODO_ENTITY,
@@ -97,7 +97,7 @@ class TodoContentActivity : AppCompatActivity() {
                     setResult(RESULT_OK, Intent().apply {
                         putExtra(
                             EXTRA_TODO_CONTENT_ACTION_TYPE,
-                            TodoContentEntryType.UPDATE
+                            TodoContentActionType.UPDATE
                         )
                         putExtra(
                             EXTRA_TODO_ENTITY,
@@ -115,7 +115,7 @@ class TodoContentActivity : AppCompatActivity() {
                     setResult(RESULT_OK, Intent().apply {
                         putExtra(
                             EXTRA_TODO_CONTENT_ACTION_TYPE,
-                            TodoContentEntryType.DELETE
+                            TodoContentActionType.DELETE
                         )
                         putExtra(
                             EXTRA_TODO_ENTITY,

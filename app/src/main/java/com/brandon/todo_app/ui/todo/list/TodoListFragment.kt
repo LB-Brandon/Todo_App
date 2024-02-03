@@ -16,9 +16,10 @@ import com.brandon.todo_app.data.TodoEntity
 import com.brandon.todo_app.databinding.TodoListFragmentBinding
 import com.brandon.todo_app.ui.main.TodoMainViewModel
 import com.brandon.todo_app.ui.todo.content.TodoContentActionType
+import com.brandon.todo_app.ui.todo.content.TodoContentActivity
+import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_CONTENT_ACTION_TYPE
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_CONTENT_ENTRY_TYPE
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_ENTITY
-import timber.log.Timber
 
 
 class TodoListFragment : Fragment() {
@@ -35,6 +36,7 @@ class TodoListFragment : Fragment() {
 
     private val listAdapter: TodoListAdapter by lazy {
         TodoListAdapter(
+            // 리스트의 아이템이 클릭되면 아이템의 position 과 item 자체를 받아와 viewModel로 전달
             onClickItem = { position, item ->
                 viewModel.onClickItem(
                     position,
@@ -47,17 +49,22 @@ class TodoListFragment : Fragment() {
         )
     }
 
+    /**
+     * TodoListFragment -> TodoContentActivity
+     *
+     * 리스트 아이템 클릭 후 돌려 받은 결과 처리 로직
+     */
     private val updateTodoLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
 
                 val entryType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     result.data?.getSerializableExtra(
-                        EXTRA_TODO_CONTENT_ENTRY_TYPE,
+                        EXTRA_TODO_CONTENT_ACTION_TYPE,
                         TodoContentActionType::class.java
                     )
                 } else {
-                    result.data?.getSerializableExtra(EXTRA_TODO_CONTENT_ENTRY_TYPE) as TodoContentActionType
+                    result.data?.getSerializableExtra(EXTRA_TODO_CONTENT_ACTION_TYPE) as TodoContentActionType
                 }
 
                 val entity = IntentCompat.getParcelableExtra(
@@ -66,19 +73,12 @@ class TodoListFragment : Fragment() {
                     TodoEntity::class.java
                 )
 
-                // TODO: 공유 뷰모델 데이터 업데이트 or 삭제
                 updateSharedTodoList(entryType, entity)
             }
         }
 
     private fun updateSharedTodoList(entryType: TodoContentActionType?, entity: TodoEntity?) {
-        entity ?: Timber.e("Can't find updated entity")
-        entity ?: Timber.e("Can't find entry type")
-        when (entryType) {
-            TodoContentActionType.UPDATE -> TODO()
-            TodoContentActionType.DELETE -> TODO()
-            null -> Unit
-        }
+        sharedViewModel.updateTodoItem(entryType, entity)
     }
 
     override fun onCreateView(
@@ -97,8 +97,25 @@ class TodoListFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        sharedViewModel.todoItemList.observe(viewLifecycleOwner) {
-            listAdapter.submitList(it)
+        with(sharedViewModel){
+            sharedTodoItemList.observe(viewLifecycleOwner) {
+                listAdapter.submitList(it)
+            }
+        }
+        with(viewModel){
+            event.observe(viewLifecycleOwner){ event ->
+                when(event){
+                    is TodoListEvent.OpenContent -> {
+                        updateTodoLauncher.launch(
+                            TodoContentActivity.newIntentUpdate(
+                                requireContext(),
+                                event.position,
+                                event.item
+                            )
+                        )
+                    }
+                }
+            }
         }
     }
 

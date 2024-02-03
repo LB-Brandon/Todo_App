@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.brandon.todo_app.data.TodoEntity
 import com.brandon.todo_app.databinding.TodoMainActivityBinding
+import com.brandon.todo_app.ui.todo.content.TodoContentActionType
 import com.brandon.todo_app.ui.todo.content.TodoContentActivity
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_CONTENT_ACTION_TYPE
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_ENTITY
@@ -41,8 +42,7 @@ class TodoMainActivity : AppCompatActivity() {
                         EXTRA_TODO_ENTITY
                     )
                 }
-                // TODO: 공유 뷰모델에 저장
-                sharedViewModel.saveTodoItem(todoEntity)
+                sharedViewModel.updateTodoItem(TodoContentActionType.CREATE, todoEntity)
                 Timber.d("AddTodoActivity succeeded. TodoEntity: $todoEntity.")
             }else{
                 Timber.e("AddTodoActivity failed or canceled.")
