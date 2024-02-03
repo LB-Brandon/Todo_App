@@ -10,7 +10,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.brandon.nbc_todo.ui.main.MainViewPagerAdapter
-import com.brandon.todo_app.const.Keys.EXTRA_TODO_MODEL
+import com.brandon.todo_app.const.Keys.EXTRA_TODO_ENTITY
 import com.brandon.todo_app.data.TodoModel
 import com.brandon.todo_app.databinding.MainActivityBinding
 import com.brandon.todo_app.ui.todo_add_todo.AddTodoActivity
@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
             val resultData = result.data
             if (resultData != null) {
                 // AddTodoActivity에서 TodoModel 가져오기
+                // TODO: result 타입에 따라 결과 바꾸기
                 val newTodoModel = getTodoModelFromAddTodoLauncher(resultData)
                 newTodoModel?.let {
                     // TodoFragment에 데이터를 전달
@@ -90,9 +91,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun getTodoModelFromAddTodoLauncher(resultData: Intent): TodoModel? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            resultData.getParcelableExtra(EXTRA_TODO_MODEL, TodoModel::class.java)
+            resultData.getParcelableExtra(EXTRA_TODO_ENTITY, TodoModel::class.java)
         } else {
-            resultData.getParcelableExtra(EXTRA_TODO_MODEL)
+            resultData.getParcelableExtra(EXTRA_TODO_ENTITY)
         }
     }
 }

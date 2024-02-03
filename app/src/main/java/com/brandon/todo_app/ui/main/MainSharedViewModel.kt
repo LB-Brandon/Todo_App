@@ -17,4 +17,12 @@ class MainSharedViewModel : ViewModel() {
         Timber.d("Add todoModel: $todoModel")
     }
 
+    fun deleteTodoItem(todoModel: TodoModel?){
+        todoModel?: return
+        val currentList = _todoItemList.value?.toMutableList() ?: mutableListOf()
+        currentList.remove(todoModel)
+        _todoItemList.value = currentList
+        Timber.d("Delete todoModel: $todoModel")
+    }
+
 }
