@@ -73,6 +73,8 @@ class TodoContentActivity : AppCompatActivity() {
             }
         }
 
+        // Event 자체는 필요한 정보만 가지고 Entity 를 변조하고 Action 를 세팅
+        // 목적지에서 action 타입에 따라 처리
         event.observe(this@TodoContentActivity) {
             when (it) {
                 is TodoContentEvent.Create -> {

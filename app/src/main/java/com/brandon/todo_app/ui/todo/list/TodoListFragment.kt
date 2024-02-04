@@ -18,7 +18,6 @@ import com.brandon.todo_app.ui.main.TodoMainViewModel
 import com.brandon.todo_app.ui.todo.content.TodoContentActionType
 import com.brandon.todo_app.ui.todo.content.TodoContentActivity
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_CONTENT_ACTION_TYPE
-import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_CONTENT_ENTRY_TYPE
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_ENTITY
 
 
@@ -43,8 +42,8 @@ class TodoListFragment : Fragment() {
                     item
                 )
             },
-            onBookmarkChecked = { position, item ->
-
+            onBookmarkChecked = { item ->
+                sharedViewModel.toggleBookmark(item)
             }
         )
     }
@@ -98,7 +97,7 @@ class TodoListFragment : Fragment() {
 
     private fun initViewModel() {
         with(sharedViewModel){
-            sharedTodoItemList.observe(viewLifecycleOwner) {
+            todoItemList.observe(viewLifecycleOwner) {
                 listAdapter.submitList(it)
             }
         }

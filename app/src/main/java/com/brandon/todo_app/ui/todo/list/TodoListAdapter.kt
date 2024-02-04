@@ -12,7 +12,7 @@ import com.brandon.todo_app.databinding.UnknownItemBinding
 
 class TodoListAdapter(
     private val onClickItem: (Int, TodoListItem) -> Unit,
-    private val onBookmarkChecked: (Int, TodoListItem) -> Unit
+    private val onBookmarkChecked: (TodoListItem) -> Unit
 ) : ListAdapter<TodoListItem, TodoListAdapter.TodoViewHolder>(
 
     object : DiffUtil.ItemCallback<TodoListItem>() {
@@ -64,7 +64,7 @@ class TodoListAdapter(
     class TodoItemViewHolder(
         private val binding: TodoListItemBinding,
         private val onClickItem: (Int, TodoListItem) -> Unit,
-        private val onBookmarkChecked: (Int, TodoListItem) -> Unit
+        private val onBookmarkChecked: (TodoListItem) -> Unit
     ) : TodoViewHolder(binding.root) {
 
         override fun onBind(item: TodoListItem) = with(binding) {
@@ -86,14 +86,7 @@ class TodoListAdapter(
 
             // 북마크 클릭
             bookmark.setOnClickListener {
-                if (item.isBookmark != bookmark.isChecked) {
-                    onBookmarkChecked(
-                        adapterPosition,
-                        item.copy(
-                            isBookmark = bookmark.isChecked
-                        )
-                    )
-                }
+                onBookmarkChecked(item)
             }
         }
     }

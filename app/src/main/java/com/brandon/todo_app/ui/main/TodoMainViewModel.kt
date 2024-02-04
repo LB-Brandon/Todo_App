@@ -9,8 +9,8 @@ import com.brandon.todo_app.ui.todo.content.TodoContentActionType
 import timber.log.Timber
 
 class TodoMainViewModel : ViewModel() {
-    private val _sharedTodoList = MutableLiveData<List<TodoListItem.Item>>()
-    val sharedTodoItemList: LiveData<List<TodoListItem.Item>> get() = _sharedTodoList
+    private val _todoList = MutableLiveData<List<TodoListItem.Item>>()
+    val todoItemList: LiveData<List<TodoListItem.Item>> get() = _todoList
 
 
     fun updateTodoItem(entryType: TodoContentActionType? = null, entity: TodoEntity?) {
@@ -23,7 +23,7 @@ class TodoMainViewModel : ViewModel() {
             return
         }
 
-        val currentList = sharedTodoItemList.value.orEmpty()
+        val currentList = todoItemList.value.orEmpty()
 
         when (entryType) {
             TodoContentActionType.UPDATE -> {
@@ -36,7 +36,7 @@ class TodoMainViewModel : ViewModel() {
                         item
                     }
                 }
-                _sharedTodoList.value = updatedList
+                _todoList.value = updatedList
                 Timber.d("Update TodoEntity: $entity")
             }
 
@@ -45,17 +45,34 @@ class TodoMainViewModel : ViewModel() {
                 val updatedList = currentList.filter { item ->
                     item.id != entity.id
                 }
-                _sharedTodoList.value = updatedList
+                _todoList.value = updatedList
                 Timber.d("Delete TodoEntity: $entity")
             }
 
             TodoContentActionType.CREATE -> {
-                _sharedTodoList.value = (sharedTodoItemList.value ?: emptyList()) + createTodoItem(entity)
+                _todoList.value = (todoItemList.value ?: emptyList()) + createTodoItem(entity)
                 Timber.d("Saved TodoEntity into SharedViewModel: $entity")
             }
         }
+    }
 
+    fun toggleBookmark(entity: TodoListItem){
+        val currentList = todoItemList.value.orEmpty()
 
+        when(entity){
+            is TodoListItem.Item -> {
+                val updatedList = currentList.map { item ->
+                    if (entity.id == item.id) {
+                        // Update the item if the IDs match
+                        item.copy(isBookmark = item.isBookmark.not()) // 구현
+                    } else {
+                        item
+                    }
+                }
+                _todoList.value = updatedList
+                Timber.d("Toggle bookmark")
+            }
+        }
     }
 
 
