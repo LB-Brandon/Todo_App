@@ -36,9 +36,7 @@ class BookmarkListFragment : Fragment() {
         BookmarkListAdapter(
             // 리스트의 아이템이 클릭되면 아이템의 position 과 item 자체를 받아와 viewModel로 전달
             onClickItem = { item ->
-                viewModel.onClickItem(
-                    item
-                )
+                viewModel.onClickItem(item)
             },
             onBookmarkChecked = { item ->
                 sharedViewModel.toggleBookmark(item)
