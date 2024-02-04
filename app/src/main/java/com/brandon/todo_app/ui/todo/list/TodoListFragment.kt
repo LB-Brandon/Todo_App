@@ -108,7 +108,6 @@ class TodoListFragment : Fragment() {
                         updateTodoLauncher.launch(
                             TodoContentActivity.newIntentUpdate(
                                 requireContext(),
-                                event.position,
                                 event.item
                             )
                         )
