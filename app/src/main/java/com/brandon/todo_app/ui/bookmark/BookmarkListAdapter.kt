@@ -1,4 +1,4 @@
-package com.brandon.todo_app.ui.todo.list
+package com.brandon.todo_app.ui.bookmark
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brandon.todo_app.data.TodoListItem
 import com.brandon.todo_app.databinding.TodoListItemBinding
 import com.brandon.todo_app.databinding.UnknownItemBinding
+import com.brandon.todo_app.ui.todo.list.TodoListViewType
 
-class TodoListAdapter(
+class BookmarkListAdapter(
     private val onClickItem: (Int, TodoListItem) -> Unit,
     private val onBookmarkChecked: (TodoListItem) -> Unit
-) : ListAdapter<TodoListItem, TodoListAdapter.TodoViewHolder>(
+) : ListAdapter<TodoListItem, BookmarkListAdapter.TodoViewHolder>(
 
     object : DiffUtil.ItemCallback<TodoListItem>() {
         override fun areItemsTheSame(

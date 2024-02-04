@@ -64,7 +64,7 @@ class TodoMainViewModel : ViewModel() {
                 val updatedList = currentList.map { item ->
                     if (entity.id == item.id) {
                         // Update the item if the IDs match
-                        item.copy(isBookmark = item.isBookmark.not()) // 구현
+                        item.copy(isBookmarked = item.isBookmarked.not()) // 구현
                     } else {
                         item
                     }

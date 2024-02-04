@@ -15,7 +15,6 @@ import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_CONTE
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_ENTITY
 import com.brandon.todo_app.ui.todo.list.TodoListFragment
 import com.google.android.material.tabs.TabLayoutMediator
-import com.jess.nbcamp.challnge2.assignment.main.TodoMainViewPagerAdapter
 import timber.log.Timber
 
 class TodoMainActivity : AppCompatActivity() {

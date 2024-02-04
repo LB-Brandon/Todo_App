@@ -6,6 +6,6 @@ sealed interface TodoListItem {
         val id: String?,
         val title: String?,
         val content: String?,
-        val isBookmark: Boolean = false,
+        val isBookmarked: Boolean = false,
     ) : TodoListItem
 }
