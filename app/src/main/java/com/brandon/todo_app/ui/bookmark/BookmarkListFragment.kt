@@ -18,7 +18,6 @@ import com.brandon.todo_app.ui.main.TodoMainViewModel
 import com.brandon.todo_app.ui.todo.content.TodoContentActionType
 import com.brandon.todo_app.ui.todo.content.TodoContentActivity
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant
-import com.brandon.todo_app.ui.todo.list.TodoListAdapter
 
 
 class BookmarkListFragment : Fragment() {
@@ -36,9 +35,8 @@ class BookmarkListFragment : Fragment() {
     private val listAdapter: BookmarkListAdapter by lazy {
         BookmarkListAdapter(
             // 리스트의 아이템이 클릭되면 아이템의 position 과 item 자체를 받아와 viewModel로 전달
-            onClickItem = { position, item ->
+            onClickItem = { item ->
                 viewModel.onClickItem(
-                    position,
                     item
                 )
             },
@@ -110,7 +108,6 @@ class BookmarkListFragment : Fragment() {
                         updateTodoLauncher.launch(
                             TodoContentActivity.newIntentUpdate(
                                 requireContext(),
-                                event.position,
                                 event.item
                             )
                         )

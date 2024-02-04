@@ -6,7 +6,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.brandon.todo_app.R
 import com.brandon.todo_app.ui.bookmark.BookmarkListFragment
 import com.brandon.todo_app.ui.todo.list.TodoListFragment
-import com.jess.nbcamp.challnge2.assignment.main.TodoMainTab
 
 class TodoMainViewPagerAdapter(
     fragmentActivity: FragmentActivity

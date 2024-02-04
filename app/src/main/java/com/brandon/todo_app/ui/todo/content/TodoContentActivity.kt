@@ -11,7 +11,6 @@ import com.brandon.todo_app.databinding.TodoCreateActivityBinding
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_CONTENT_ACTION_TYPE
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_ENTITY
 import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_CONTENT_ENTRY_TYPE
-import com.brandon.todo_app.ui.todo.content.TodoContentConstant.EXTRA_TODO_POSITION
 
 class TodoContentActivity : AppCompatActivity() {
 
@@ -25,11 +24,9 @@ class TodoContentActivity : AppCompatActivity() {
 
         fun newIntentUpdate(
             context: Context,
-            position: Int,
             entity: TodoEntity
         ) = Intent(context, TodoContentActivity::class.java).apply {
             putExtra(EXTRA_TODO_CONTENT_ENTRY_TYPE, TodoContentEntryType.UPDATE)
-            putExtra(EXTRA_TODO_POSITION, position)
             putExtra(EXTRA_TODO_ENTITY, entity)
         }
     }

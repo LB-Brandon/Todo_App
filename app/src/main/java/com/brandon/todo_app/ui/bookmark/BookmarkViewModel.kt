@@ -12,10 +12,9 @@ class BookmarkViewModel: ViewModel() {
     val event: LiveData<BookmarkListEvent> get() = _event
 
 
-    fun onClickItem(position: Int, item: TodoListItem) {
+    fun onClickItem(item: TodoListItem) {
         _event.value = when (item) {
             is TodoListItem.Item -> BookmarkListEvent.OpenContent(
-                position,
                 TodoEntity(
                     id = item.id,
                     title = item.title,

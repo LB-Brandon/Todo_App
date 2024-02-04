@@ -12,7 +12,7 @@ import com.brandon.todo_app.databinding.UnknownItemBinding
 import com.brandon.todo_app.ui.todo.list.TodoListViewType
 
 class BookmarkListAdapter(
-    private val onClickItem: (Int, TodoListItem) -> Unit,
+    private val onClickItem: (TodoListItem) -> Unit,
     private val onBookmarkChecked: (TodoListItem) -> Unit
 ) : ListAdapter<TodoListItem, BookmarkListAdapter.TodoViewHolder>(
 
@@ -64,7 +64,7 @@ class BookmarkListAdapter(
 
     class TodoItemViewHolder(
         private val binding: TodoListItemBinding,
-        private val onClickItem: (Int, TodoListItem) -> Unit,
+        private val onClickItem: (TodoListItem) -> Unit,
         private val onBookmarkChecked: (TodoListItem) -> Unit
     ) : TodoViewHolder(binding.root) {
 
@@ -80,7 +80,6 @@ class BookmarkListAdapter(
             // 아이템 클릭
             container.setOnClickListener {
                 onClickItem(
-                    adapterPosition,
                     item
                 )
             }
